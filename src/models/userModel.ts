@@ -1,17 +1,13 @@
-import { IUser } from '../models';
+import * as path from 'path';
+import * as fs from "fs/promises";
+import { IUser } from 'models.js';
 
-const data = [{
-  "id": "ajsncck-sads-fsds-sdfsdf",
-  "username": "TestName",
-  "age": "25",
-  "hobbies": [
-    "Reading",
-    "Writing"
-  ]
-}];
+const dataPath = './src/data/data.json';
 
-export const findAll = () => {
+const data: IUser[] = JSON.parse(await fs.readFile(path.join(dataPath), 'utf8'));
+
+export const findAll = async (): Promise<IUser[]> => {
   return new Promise((resolve, reject) => {
-      resolve(data);
-  })
+    resolve(data);
+  });
 }

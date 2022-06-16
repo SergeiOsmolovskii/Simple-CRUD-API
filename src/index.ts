@@ -1,14 +1,9 @@
-import * as http  from 'http';
-import { findAll } from './models/userModel';
+import * as http from 'http';
+import { getAllUsers } from './controlers/userControler.js';
 
-
-const server = http.createServer( async (req, res) => {
-  if (req.url === 'api/users' && req.method === 'GET') {
-
-    const users = await findAll();
-
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(users));
+const server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse): Promise<void> => {
+  if (req.url === '/api/users' && req.method === 'GET') {
+    getAllUsers(req, res);
   }
 });
 

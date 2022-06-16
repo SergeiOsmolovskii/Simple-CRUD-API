@@ -1,7 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "ES2015",
+    "module": "es2022",
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "target": "es2017",
     "outDir": "dist",
-  }
+    "baseUrl": "./src",
+  },
+  "include": [
+    "./src/**/*"
+  ],
 }
