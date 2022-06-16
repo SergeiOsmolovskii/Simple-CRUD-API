@@ -2,6 +2,7 @@ import * as Users from '../models/userModel.js';
 import { IUser, IPossibleUser } from 'models.js';
 import { IncomingMessage, ServerResponse } from 'http';
 import { getPostUserData } from '../utils.js';
+import { checkUUID } from '../utils.js';
 
 export const getAllUsers = async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
   try {
@@ -29,4 +30,25 @@ export const postUser = async (req: IncomingMessage, res: ServerResponse): Promi
   } catch (error) {
     console.log(error);
   }
+}
+
+export const getUserById = async (req: IncomingMessage, res: ServerResponse, id: string): Promise<void> => {
+  try {
+    const user: IUser = await Users.findById(id);
+   
+    if (!checkUUID(id)) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'Invalid UUID' }));
+    } else if (!user) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'User not found' }));
+    } else { 
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(user));
+    }
+  }
+  catch (error) {
+    console.log(error);
+  }
+
 }

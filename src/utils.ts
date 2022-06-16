@@ -1,7 +1,10 @@
 import { IncomingMessage } from "http";
 import { IUser, IPossibleUser } from "models";
+import { validate as uuidValidate } from 'uuid';
+import { version as uuidVersion } from 'uuid';
 
-export const getPostUserData = (req): Promise<IPossibleUser> => {
+
+export const getPostUserData = (req: IncomingMessage): Promise<IPossibleUser> => {
   return new Promise((res, rej) => {
     try {
 
@@ -19,4 +22,8 @@ export const getPostUserData = (req): Promise<IPossibleUser> => {
       rej(error);
     }
   })
+}
+
+export const checkUUID = (id: string): boolean => {
+  return uuidValidate(id) && uuidVersion(id) === 4;
 }
