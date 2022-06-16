@@ -1,7 +1,7 @@
 import { IncomingMessage } from "http";
 import { IUser, IPossibleUser } from "models";
 
-export const getPostUserData = (req) => {
+export const getPostUserData = (req): Promise<IPossibleUser> => {
   return new Promise((res, rej) => {
     try {
 

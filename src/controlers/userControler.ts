@@ -15,11 +15,16 @@ export const getAllUsers = async (req: IncomingMessage, res: ServerResponse): Pr
 
 export const postUser = async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
   try {
-    const body = await getPostUserData(req);
-    const newUser: IUser = await Users.createUser(body);
+    const body: IPossibleUser = await getPostUserData(req);
 
-    res.writeHead(201, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(newUser));
+    if (body.username && body.age && body.hobbies) {
+      const newUser: IUser = await Users.createUser(body);
+      res.writeHead(201, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(newUser));
+    } else {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Does not contain required fields' }));
+    }
 
   } catch (error) {
     console.log(error);
