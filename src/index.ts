@@ -1,5 +1,5 @@
 import * as http from 'http';
-import { getAllUsers, getUserById, postUser } from './controlers/userControler.js';
+import { getAllUsers, getUserById, postUser, updateUser } from './controlers/userControler.js';
 
 const server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse): Promise<void> => {
   if (req.url === '/api/users' && req.method === 'GET') {
@@ -12,6 +12,10 @@ const server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
     const id: string = req.url.split('/')[3];
     getUserById(req, res, id);    
   } 
+  if (req.url.match(/\/api\/users\/\w+/) && req.method === 'PUT') {
+    const id: string = req.url.split('/')[3];
+    updateUser(req, res, id);
+  }
 });
 
 const PORT = process.env.PORT || 4000;

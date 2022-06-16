@@ -23,3 +23,12 @@ export const findById = async (id: string): Promise<IUser> => {
     resolve(user);
   });
 }
+
+export const updateUserByID = async (id: string, user: IPossibleUser): Promise<IUser> => {
+  return new Promise((resolve, reject) => {
+    const userIndex = data.findIndex(user => user.id === id);
+    user[userIndex] = {id, ...user};
+    data[userIndex] = user[userIndex];
+    resolve(user[userIndex]);
+  });
+}
