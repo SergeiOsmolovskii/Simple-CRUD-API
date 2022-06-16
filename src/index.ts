@@ -1,9 +1,12 @@
 import * as http from 'http';
-import { getAllUsers } from './controlers/userControler.js';
+import { getAllUsers, postUser } from './controlers/userControler.js';
 
 const server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse): Promise<void> => {
   if (req.url === '/api/users' && req.method === 'GET') {
     getAllUsers(req, res);
+  }
+  if (req.url === '/api/users' && req.method === 'POST') {
+    postUser(req, res);
   }
 });
 
