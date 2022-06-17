@@ -26,7 +26,6 @@ export const postUser = async (req: IncomingMessage, res: ServerResponse): Promi
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Does not contain required fields' }));
     }
-
   } catch (error) {
     console.log(error);
   }
@@ -35,14 +34,14 @@ export const postUser = async (req: IncomingMessage, res: ServerResponse): Promi
 export const getUserById = async (req: IncomingMessage, res: ServerResponse, id: string): Promise<void> => {
   try {
     const user: IUser = await Users.findById(id);
-   
+
     if (!checkUUID(id)) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'Invalid UUID' }));
     } else if (!user) {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'User not found' }));
-    } else { 
+    } else {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(user));
     }
@@ -58,7 +57,7 @@ export const updateUser = async (req: IncomingMessage, res: ServerResponse, id: 
   try {
     const user: IUser = await Users.findById(id);
 
-    if(!checkUUID(id)) {
+    if (!checkUUID(id)) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'Invalid UUID' }));
     } else if (!user) {
@@ -66,23 +65,40 @@ export const updateUser = async (req: IncomingMessage, res: ServerResponse, id: 
       res.end(JSON.stringify({ message: 'User not found' }));
     } else {
       const body: IPossibleUser = await getPostUserData(req);
-      const {username, age, hobbies } = JSON.parse(JSON.stringify(body));     
+      const { username, age, hobbies } = JSON.parse(JSON.stringify(body));
       const updatedUser: IUser = {
         id: id,
         username: username || user.username,
-        age : age || user.age,
-        hobbies : hobbies || user.hobbies
+        age: age || user.age,
+        hobbies: hobbies || user.hobbies
       };
-      
+
       const newUpdatedUser: IUser = await Users.updateUserByID(id, updatedUser);
-     
+
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(newUpdatedUser));
     }
-    
-
   } catch (error) {
     console.log(error);
   }
+}
 
+export const deleteUser = async (req: IncomingMessage, res: ServerResponse, id: string): Promise<void> => {
+  try {
+    const user: IUser = await Users.findById(id);
+
+    if (!checkUUID(id)) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'Invalid UUID' }));
+    } else if (!user) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'User not found' }));
+    } else {
+      await Users.deleteUserByID(id);
+      res.writeHead(204, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'User deleted' }));
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }

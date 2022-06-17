@@ -32,3 +32,12 @@ export const updateUserByID = async (id: string, user: IPossibleUser): Promise<I
     resolve(user[userIndex]);
   });
 }
+
+export const deleteUserByID = async (id: string): Promise<IUser> => {
+  return new Promise((resolve, reject) => {
+    const userIndex = data.findIndex(user => user.id === id);
+    const user = data[userIndex];
+    data.splice(userIndex, 1);
+    resolve(user);
+  });
+}
