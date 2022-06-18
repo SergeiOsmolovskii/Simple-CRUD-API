@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import * as http from 'http';
 import { deleteUser, getAllUsers, getUserById, postUser, updateUser } from './controlers/userControler.js';
 
