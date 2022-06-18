@@ -2,7 +2,7 @@ import 'dotenv/config';
 import * as http from 'http';
 import { deleteUser, getAllUsers, getUserById, postUser, updateUser } from './controlers/userControler.js';
 
-const server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse): Promise<void> => {
+export const server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse): Promise<void> => {
   if (req.url === '/api/users' && req.method === 'GET') {
     getAllUsers(req, res);
   }
