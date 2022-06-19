@@ -3,6 +3,7 @@ import { IUser, IPossibleUser } from 'models.js';
 import { IncomingMessage, ServerResponse } from 'http';
 import { getPostUserData } from '../utils.js';
 import { checkUUID } from '../utils.js';
+import { data } from '../models/userModel.js';
 
 export const getAllUsers = async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
   try {
@@ -23,6 +24,7 @@ export const postUser = async (req: IncomingMessage, res: ServerResponse): Promi
       const newUser: IUser = await Users.createUser(body);
       res.writeHead(201, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(newUser));
+      process.send(data);
     } else {
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Does not contain required fields' }));
@@ -101,6 +103,7 @@ export const deleteUser = async (req: IncomingMessage, res: ServerResponse, id: 
       await Users.deleteUserByID(id);
       res.writeHead(204, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'User deleted' }));
+      process.send(data);
     }
   } catch (error) {
     res.writeHead(500, { 'Content-Type': 'application/json' });

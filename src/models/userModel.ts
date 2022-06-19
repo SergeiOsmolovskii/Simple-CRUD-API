@@ -1,7 +1,7 @@
 import { IUser, IPossibleUser } from 'models.js';
 import { v4 as uuidv4 } from 'uuid';
 
-const data: IUser[] = [];
+export let data: IUser[] = [];
 
 export const findAll = async (): Promise<IUser[]> => {
   return new Promise((resolve, reject) => {

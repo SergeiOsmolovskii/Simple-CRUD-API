@@ -8,6 +8,7 @@
     "test": "jest --forceExit",
     "start:prod": "npm run build && npm run prod",
     "start:dev": "nodemon --watch src --exec ts-node-esm src/index.ts",
+    "start:multi": "nodemon --watch src --exec ts-node-esm src/cluster.ts",
     "build": "tsc",
     "prod": "cross-env NODE_ENV=production node dist/index.js"
   },

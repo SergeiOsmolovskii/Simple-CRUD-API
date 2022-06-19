@@ -1,6 +1,13 @@
 import 'dotenv/config';
 import * as http from 'http';
+import { data as mainData} from './models/userModel.js';
 import { deleteUser, getAllUsers, getUserById, postUser, updateUser } from './controlers/userControler.js';
+import cluster from 'cluster';
+import { IUser } from './models.js';
+
+const PORT = process.env.PORT || 4000;
+
+let data: IUser[] = mainData;
 
 export const server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse): Promise<void> => {
   if (req.url === '/api/users' && req.method === 'GET') {
@@ -24,10 +31,12 @@ export const server = http.createServer(async (req: http.IncomingMessage, res: h
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: 'Route not found' }));
   }
-});
-
-const PORT = process.env.PORT || 4000;
-
-server.listen(PORT, () => {
+}).listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+if (cluster.isWorker) {
+  process.on('message', (workerData: IUser[]) => {
+    data = workerData;
+  });
+}
