@@ -10,7 +10,8 @@ export const getAllUsers = async (req: IncomingMessage, res: ServerResponse): Pr
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(users));
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Server Error' }));
   }
 }
 
@@ -27,7 +28,8 @@ export const postUser = async (req: IncomingMessage, res: ServerResponse): Promi
       res.end(JSON.stringify({ error: 'Does not contain required fields' }));
     }
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Server Error' }));
   }
 }
 
@@ -47,7 +49,8 @@ export const getUserById = async (req: IncomingMessage, res: ServerResponse, id:
     }
   }
   catch (error) {
-    console.log(error);
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Server Error' }));
   }
 
 }
@@ -79,7 +82,8 @@ export const updateUser = async (req: IncomingMessage, res: ServerResponse, id: 
       res.end(JSON.stringify(newUpdatedUser));
     }
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Server Error' }));
   }
 }
 
@@ -99,6 +103,7 @@ export const deleteUser = async (req: IncomingMessage, res: ServerResponse, id: 
       res.end(JSON.stringify({ message: 'User deleted' }));
     }
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Server Error' }));
   }
 }

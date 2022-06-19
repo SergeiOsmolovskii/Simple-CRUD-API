@@ -15,7 +15,12 @@ export const getPostUserData = (req: IncomingMessage): Promise<IPossibleUser> =>
       });
 
       req.on('end', () => {
-        res(JSON.parse(body));
+        try {
+          res(JSON.parse(body));
+        }
+        catch (error) {
+          rej(error);
+        }
       });
 
     } catch (error) {
